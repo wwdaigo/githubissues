@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Github Issues</string>
+    <string name="title_activity_details">DetailsActivity</string>
+    <string name="open">open</string>
+    <string name="closed">closed</string>
+    <string name="opened_at">created at</string>
+    <string name="closed_at">closed_at</string>
+    <string name="by">by</string>
+    <string name="on">on</string>
+    <string name="no_open">No open issues!</string>
+    <string name="no_closed">No closed issues!</string>
+    <string name="retry">Retry</string>
+    <string name="action_settings">Settings</string>
+
+</resources>

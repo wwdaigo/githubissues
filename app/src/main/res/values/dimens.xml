@@ -1,0 +1,13 @@
+<resources>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="min_margin">8dp</dimen>
+    <dimen name="default_margin">16dp</dimen>
+    <dimen name="line_margin">4dp</dimen>
+    <dimen name="list_title_size">18sp</dimen>
+    <dimen name="list_subtitle_size">12sp</dimen>
+
+    <dimen name="feature_text_size">24sp</dimen>
+    <dimen name="icon_status_size">48dp</dimen>
+</resources>

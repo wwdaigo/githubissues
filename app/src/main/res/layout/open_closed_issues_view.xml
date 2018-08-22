@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerInParent="true">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="@dimen/icon_status_size"
+            android:layout_height="@dimen/icon_status_size"
+            android:layout_marginBottom="@dimen/min_margin"
+            app:srcCompat="@drawable/ic_smile"/>
+        <TextView
+            android:id="@+id/status_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_open"
+            android:textSize="@dimen/feature_text_size"/>
+
+    </LinearLayout>
+</RelativeLayout>
