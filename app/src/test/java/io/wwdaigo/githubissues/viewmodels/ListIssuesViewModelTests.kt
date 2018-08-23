@@ -3,21 +3,28 @@ package io.wwdaigo.githubissues.viewmodels
 import com.nhaarman.mockito_kotlin.doAnswer
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Flowable
+import io.reactivex.observers.TestObserver
 import io.reactivex.subscribers.TestSubscriber
 import io.wwdaigo.githubissues.api.managers.GithubManager
 import io.wwdaigo.githubissues.commons.Errors
+import io.wwdaigo.githubissues.domain.Issue
 import io.wwdaigo.githubissues.domain.IssueState
 import io.wwdaigo.githubissues.modules.list.data.IssueListData
 import io.wwdaigo.githubissues.modules.list.viewmodels.ListIssuesViewModel
 import io.wwdaigo.githubissues.modules.list.viewmodels.ListIssuesViewModelImpl
 import io.wwdaigo.githubissues.support.IssueList
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.junit.MockitoJUnit
+import retrofit2.Response
+import retrofit2.adapter.rxjava2.Result
 
 class ListIssuesViewModelTests {
+
+    private val ERROR = "Error at Github View Model"
 
     @Rule
     @JvmField
@@ -38,24 +45,28 @@ class ListIssuesViewModelTests {
     @InjectMocks
     lateinit var listIssuesViewModelImpl: ListIssuesViewModelImpl
 
+    @Before
+    fun setup() {
+        doAnswer {
+            Flowable.just(Result.response(Response.success(
+                    listOf(IssueList.openIssue1,
+                            IssueList.openIssue2))))
+        }.whenever(manager)
+                .listIssues("open", 0)
+
+        doAnswer {
+            Flowable.just(Result.error<Throwable>(Throwable(ERROR)))
+        }.whenever(manager)
+                .listIssues("closed", 0)
+    }
+
     @Test
     fun testListOpenIssues() {
         val test = TestSubscriber<IssueListData>()
+        listIssuesViewModelImpl.outputs.listIssues.subscribe(test)
 
-        doAnswer {
-            Flowable.just(IssueListData(
-                    listOf(IssueList.openIssue1,
-                            IssueList.openIssue2),
-                    false
-            )).subscribe(test)
-        }.whenever(inputs)
-                .listCurrentPage(IssueState.OPEN)
+        listIssuesViewModelImpl.inputs.list(IssueState.OPEN,0)
 
-        inputs.listCurrentPage(IssueState.OPEN)
-
-        test.assertSubscribed()
-        test.assertComplete()
-        test.assertNoErrors()
         test.assertValue {
             !it.shouldClear
             it.list.size == 2
@@ -65,20 +76,12 @@ class ListIssuesViewModelTests {
     }
 
     @Test
-    fun testErrorResponse() {
-        val test = TestSubscriber<Errors>()
+    fun testListOpenIssuesError() {
+        val test = TestObserver<Errors>()
+        listIssuesViewModelImpl.outputs.errorStatus.subscribe(test)
 
-        doAnswer {
-            Flowable.just(Errors.SERVER_ERROR)
-                    .subscribe(test)
-        }.whenever(inputs).listNextPage(IssueState.OPEN)
+        listIssuesViewModelImpl.inputs.list(IssueState.CLOSED, 0)
 
-        inputs.listNextPage(IssueState.OPEN)
-
-        test.assertSubscribed()
-        test.assertComplete()
-        test.assertNoErrors()
         test.assertValue(Errors.SERVER_ERROR)
-        test.assertNever(Errors.NO_INTERNET)
     }
 }
