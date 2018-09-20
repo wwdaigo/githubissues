@@ -1,8 +1,8 @@
 package io.wwdaigo.githubissues.support
 
-import io.wwdaigo.githubissues.domain.Issue
-import io.wwdaigo.githubissues.domain.IssueState
-import io.wwdaigo.githubissues.domain.User
+import io.wwdaigo.domain.entities.Issue
+import io.wwdaigo.domain.entities.IssueState
+import io.wwdaigo.domain.entities.User
 import java.util.*
 
 object IssueList {

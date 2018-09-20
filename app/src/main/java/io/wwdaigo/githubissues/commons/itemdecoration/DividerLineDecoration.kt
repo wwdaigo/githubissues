@@ -5,8 +5,9 @@ import android.graphics.Canvas
 import android.graphics.drawable.ColorDrawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
+import android.widget.FrameLayout
+import io.wwdaigo.common.extensions.forEach
 import io.wwdaigo.githubissues.R
-import io.wwdaigo.githubissues.commons.extensions.forEach
 
 class DividerLineDecoration(val context: Context): RecyclerView.ItemDecoration() {
 
@@ -18,8 +19,8 @@ class DividerLineDecoration(val context: Context): RecyclerView.ItemDecoration()
             val left = it.paddingLeft
             val right = it.width - left
 
-            it.forEach {
-                val params = it.layoutParams as RecyclerView.LayoutParams
+            it.forEach { _ ->
+                val params = it.layoutParams as FrameLayout.LayoutParams
                 val ty = it.translationY
                 val top = (it.top - params.topMargin + ty).toInt()
                 val bottom = top + height

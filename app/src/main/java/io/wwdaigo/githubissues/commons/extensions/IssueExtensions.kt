@@ -1,8 +1,11 @@
 package io.wwdaigo.githubissues.commons.extensions
 
 import android.content.Context
+import io.wwdaigo.common.extensions.DateFormat
+import io.wwdaigo.common.extensions.format
+import io.wwdaigo.domain.entities.Issue
 import io.wwdaigo.githubissues.R
-import io.wwdaigo.githubissues.domain.Issue
+
 
 fun Issue.getSubtitle(context: Context): String {
     val number = "#${this.number}"

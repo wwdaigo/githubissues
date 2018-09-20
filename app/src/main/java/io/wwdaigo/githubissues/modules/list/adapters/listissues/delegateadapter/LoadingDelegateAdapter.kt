@@ -2,10 +2,10 @@ package io.wwdaigo.githubissues.modules.list.adapters.listissues.delegateadapter
 
 import android.support.v7.widget.RecyclerView
 import android.view.ViewGroup
+import io.wwdaigo.common.extensions.inflate
 import io.wwdaigo.githubissues.R
 import io.wwdaigo.githubissues.commons.adapters.ViewType
 import io.wwdaigo.githubissues.commons.adapters.ViewTypeDelegateAdapter
-import io.wwdaigo.githubissues.commons.extensions.inflate
 
 class LoadingDelegateAdapter: ViewTypeDelegateAdapter {
 

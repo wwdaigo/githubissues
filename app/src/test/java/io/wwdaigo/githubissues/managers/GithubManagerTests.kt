@@ -3,8 +3,8 @@ package io.wwdaigo.githubissues.managers
 import io.reactivex.Flowable
 import io.wwdaigo.githubissues.api.managers.GithubManager
 import io.wwdaigo.githubissues.api.managers.GithubManagerImpl
-import io.wwdaigo.githubissues.api.services.GithubServices
-import io.wwdaigo.githubissues.domain.Issue
+import io.wwdaigo.dataaccess.api.services.GithubServices
+import io.wwdaigo.domain.entities.Issue
 import io.wwdaigo.githubissues.support.IssueList
 import org.junit.Assert.assertNotNull
 import org.junit.Rule
@@ -58,7 +58,7 @@ class GithubManagerTests {
         testObserver.assertValue {
             val response = it.response()!!
             response.isSuccessful
-            response.body()!!.size == 2
+            response.body()!!.size == 3
             response.body()!!.first() == IssueList.openIssue1
             response.body()!!.last() == IssueList.openIssue2
         }

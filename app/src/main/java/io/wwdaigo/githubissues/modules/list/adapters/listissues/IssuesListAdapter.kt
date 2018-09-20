@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import io.wwdaigo.githubissues.commons.adapters.AdapterConstants
 import io.wwdaigo.githubissues.commons.adapters.ViewType
 import io.wwdaigo.githubissues.commons.adapters.ViewTypeDelegateAdapter
-import io.wwdaigo.githubissues.domain.Issue
+import io.wwdaigo.domain.entities.Issue
 import io.wwdaigo.githubissues.modules.list.adapters.listissues.delegateadapter.IssueDelegateAdapter
 import io.wwdaigo.githubissues.modules.list.adapters.listissues.delegateadapter.LoadingDelegateAdapter
 import io.wwdaigo.githubissues.modules.list.adapters.listissues.viewdataitem.IssueViewTypeItem

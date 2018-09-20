@@ -2,7 +2,7 @@ package io.wwdaigo.githubissues.modules.detail
 
 import android.content.Context
 import android.content.Intent
-import io.wwdaigo.githubissues.domain.Issue
+import io.wwdaigo.domain.entities.Issue
 
 class DetailsIntent {
     companion object {

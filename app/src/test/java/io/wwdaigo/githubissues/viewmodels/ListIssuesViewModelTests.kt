@@ -6,9 +6,7 @@ import io.reactivex.Flowable
 import io.reactivex.observers.TestObserver
 import io.reactivex.subscribers.TestSubscriber
 import io.wwdaigo.githubissues.api.managers.GithubManager
-import io.wwdaigo.githubissues.commons.Errors
-import io.wwdaigo.githubissues.domain.Issue
-import io.wwdaigo.githubissues.domain.IssueState
+import io.wwdaigo.domain.entities.IssueState
 import io.wwdaigo.githubissues.modules.list.data.IssueListData
 import io.wwdaigo.githubissues.modules.list.viewmodels.ListIssuesViewModel
 import io.wwdaigo.githubissues.modules.list.viewmodels.ListIssuesViewModelImpl
@@ -68,9 +66,9 @@ class ListIssuesViewModelTests {
         listIssuesViewModelImpl.inputs.list(IssueState.OPEN,0)
 
         test.assertValue {
-            !it.shouldClear
-            it.list.size == 2
-            it.list.first() == IssueList.openIssue1
+            !it.shouldClear &&
+            it.list.size == 2 &&
+            it.list.first() == IssueList.openIssue1 &&
             it.list.last() == IssueList.openIssue2
         }
     }

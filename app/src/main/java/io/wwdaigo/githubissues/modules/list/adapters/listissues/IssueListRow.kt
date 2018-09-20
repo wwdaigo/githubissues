@@ -4,12 +4,10 @@ import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
+import io.wwdaigo.common.extensions.inflate
 import io.wwdaigo.githubissues.R
-import io.wwdaigo.githubissues.commons.extensions.getSubtitle
-import io.wwdaigo.githubissues.commons.extensions.inflate
-import io.wwdaigo.githubissues.domain.Issue
+import io.wwdaigo.domain.entities.Issue
 import io.wwdaigo.githubissues.modules.list.adapters.listissues.viewdataitem.IssueViewTypeItem
 import javax.inject.Inject
 
@@ -35,7 +33,7 @@ class IssueListRow(val callback: IssueSelected) {
             val subtitleTextView = itemView.findViewById<TextView>(R.id.subtitle_text_view)
 
             titleTextView.text = data.title
-            subtitleTextView.text = data.getSubtitle(itemView.context)
+            // todo subtitleTextView.text = data.getSubtitle(itemView.context)
 
         }
         private fun setupCallback(data: Issue) {

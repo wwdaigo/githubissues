@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v4.view.ViewPager
 import dagger.android.AndroidInjection
 import io.wwdaigo.githubissues.R
-import io.wwdaigo.githubissues.domain.IssueState
+import io.wwdaigo.domain.entities.IssueState
 import io.wwdaigo.githubissues.modules.list.adapters.tabbar.IssuesPageAdapter
 import io.wwdaigo.githubissues.modules.list.fragments.IssuesFragment
 import kotlinx.android.synthetic.main.activity_main.*

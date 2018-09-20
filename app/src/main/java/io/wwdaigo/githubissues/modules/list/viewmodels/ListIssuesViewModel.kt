@@ -1,22 +1,22 @@
 package io.wwdaigo.githubissues.modules.list.viewmodels
 
 import io.reactivex.Flowable
-import io.wwdaigo.githubissues.commons.viewmodel.ViewModelOutput
-import io.wwdaigo.githubissues.domain.IssueState
+import io.reactivex.Observable
+import io.wwdaigo.domain.entities.IssueState
+import io.wwdaigo.githubissues.commons.BaseViewModel
 import io.wwdaigo.githubissues.modules.list.data.IssueListData
 
-interface ListIssuesViewModel {
+interface ListIssuesViewModel: BaseViewModel {
+    val callbacks: Callbacks
 
-    val inputs: Inputs
-    val outputs: Outputs
+    fun list(state: IssueState, page: Int)
+    fun listCurrentPage(state: IssueState)
+    fun listNextPage(state: IssueState)
 
-    interface Inputs {
-        fun list(state: IssueState, page: Int)
-        fun listCurrentPage(state: IssueState)
-        fun listNextPage(state: IssueState)
-    }
-
-    interface Outputs: ViewModelOutput {
-        val listIssues: Flowable<IssueListData>
+    interface Callbacks{
+        val isLoading: Observable<Boolean>
+        val isRefreshing: Observable<Boolean>
+        val errorMessage: Observable<String>
+        val listIssues: Observable<IssueListData>
     }
 }

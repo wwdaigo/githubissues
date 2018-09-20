@@ -3,14 +3,16 @@ package io.wwdaigo.githubissues.di
 import dagger.BindsInstance
 import dagger.Component
 import io.wwdaigo.githubissues.commons.App
-import io.wwdaigo.githubissues.di.modules.ActivitiesModule
-import io.wwdaigo.githubissues.di.modules.AppModule
-import io.wwdaigo.githubissues.di.modules.ServicesModule
-import io.wwdaigo.githubissues.di.modules.ViewModelsModule
+import io.wwdaigo.githubissues.di.modules.*
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [(AppModule::class), (ActivitiesModule::class), (ServicesModule::class), (ViewModelsModule::class)])
+@Component(modules = [
+    (AppModule::class),
+    (ActivitiesModule::class),
+    (RepositoriesModule::class),
+    (UseCasesModule::class),
+    (ViewModelsModule::class)])
 interface AppComponent {
     fun inject(app: App)
 

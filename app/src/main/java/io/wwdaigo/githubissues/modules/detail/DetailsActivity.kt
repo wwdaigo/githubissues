@@ -6,18 +6,13 @@ import android.support.v7.app.AppCompatActivity
 import dagger.android.AndroidInjection
 import io.reactivex.disposables.CompositeDisposable
 import io.wwdaigo.githubissues.R
-import io.wwdaigo.githubissues.commons.extensions.getStatus
-import io.wwdaigo.githubissues.domain.Issue
-import io.wwdaigo.githubissues.domain.IssueState
-import io.wwdaigo.githubissues.modules.detail.viewmodels.DetailViewModel
+import io.wwdaigo.domain.entities.Issue
+import io.wwdaigo.domain.entities.IssueState
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.android.synthetic.main.content_details.*
 import javax.inject.Inject
 
 class DetailsActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var viewModel: DetailViewModel
 
     private val disposeBag = CompositeDisposable()
 
@@ -39,17 +34,6 @@ class DetailsActivity : AppCompatActivity() {
 
         val issue = intent.extras.getSerializable(DetailsIntent.EXTRA_ISSUE) as Issue
         fillData(issue)
-
-        bindOutputs()
-        viewModel.inputs.getIssue(issue.number)
-    }
-
-    private fun bindOutputs() {
-        disposeBag.addAll(
-                viewModel.outputs.issue.subscribe {
-                    fillData(it)
-                }
-        )
     }
 
     private fun fillData(issue: Issue) {
@@ -57,7 +41,7 @@ class DetailsActivity : AppCompatActivity() {
         title = "#${issue.number}"
 
         titleLabel.text = issue.title
-        statusLabel.text = issue.getStatus(this)
+        // todo statusLabel.text = issue.getStatus(this)
         issueLabel.text = issue.body
 
         when (issue.state) {

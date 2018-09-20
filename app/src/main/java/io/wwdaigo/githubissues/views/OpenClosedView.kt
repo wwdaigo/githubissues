@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import android.widget.TextView
 import io.wwdaigo.githubissues.R
-import io.wwdaigo.githubissues.domain.IssueState
+import io.wwdaigo.domain.entities.IssueState
 
 class OpenClosedView(context: Context, attributeSet: AttributeSet? = null): RelativeLayout(context, attributeSet) {
 

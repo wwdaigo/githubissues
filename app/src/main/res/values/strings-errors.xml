@@ -2,4 +2,6 @@
 <resources>
     <string name="no_internet">No Internet connection.</string>
     <string name="server_error">Something went wrong, please, try it again.</string>
+    <string name="list_issues_error">Could not retrieve the list of issues.</string>
+    <string name="get_issue_error">Could not retrieve the issue.</string>
 </resources>

@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,14 +14,14 @@ import io.reactivex.disposables.CompositeDisposable
 import io.wwdaigo.githubissues.R
 import io.wwdaigo.githubissues.commons.FIRST_PAGE
 import io.wwdaigo.githubissues.commons.itemdecoration.DividerLineDecoration
-import io.wwdaigo.githubissues.domain.Issue
-import io.wwdaigo.githubissues.domain.IssueState
+import io.wwdaigo.domain.entities.Issue
+import io.wwdaigo.domain.entities.IssueState
 import io.wwdaigo.githubissues.modules.detail.DetailsIntent
 import io.wwdaigo.githubissues.modules.list.adapters.listissues.InfiniteScrollListener
 import io.wwdaigo.githubissues.modules.list.adapters.listissues.IssueSelected
 import io.wwdaigo.githubissues.modules.list.adapters.listissues.IssuesListAdapter
+import io.wwdaigo.githubissues.modules.list.data.IssueListData
 import io.wwdaigo.githubissues.modules.list.viewmodels.ListIssuesViewModel
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_issues.*
 import javax.inject.Inject
 
@@ -72,40 +71,53 @@ class IssuesFragment : Fragment(), IssueSelected {
     }
 
     private fun listFirstPage() {
-        state?.let { viewModel.inputs.list(it, FIRST_PAGE) }
+        state?.let { viewModel.list(it, FIRST_PAGE) }
     }
 
-    private fun bindOutputs() {
+    private fun bindOutputs() = with(viewModel.callbacks) {
         diposeBag.addAll(
-                viewModel.outputs.listIssues.subscribe {
-                    adapter.setList(it.list, it.shouldClear)
-                    adapter.notifyDataSetChanged()
-
-                    if (it.list.isEmpty()) {
-                        if (viewSwitcher.currentView == recyclerView)
-                            viewSwitcher.showNext()
-                    } else {
-                        if (viewSwitcher.currentView == openClosedView)
-                            viewSwitcher.showPrevious()
-                    }
+                listIssues.subscribe {
+                    setupAdapter(it)
                 },
 
-                viewModel.outputs.isLoading.subscribe {
+                isLoading.subscribe {
                     adapter.toggleLoadingMode(it)
-                    if (!it) swypeView.isRefreshing = false
                 },
 
-                viewModel.outputs.errorStatus.subscribe { err ->
+                isRefreshing.subscribe {
+                    if (!it) swypeView.isRefreshing = it
+                },
 
-                    activity?.let { it ->
-                        Snackbar.make(mainView, err.printableMessage(it), Snackbar.LENGTH_LONG)
-                                .setAction(R.string.retry) { _ ->
-                                    state?.let { st -> viewModel.inputs.listCurrentPage(st) }
-                                }
-                                .show()
-                    }
+                errorMessage.subscribe { error ->
+                    showErrorMessage(error)
                 }
         )
+    }
+
+    private fun setupAdapter(data: IssueListData) {
+        adapter.setList(data.list, data.shouldClear)
+        adapter.notifyDataSetChanged()
+
+       toggleListMode(data.list.isEmpty())
+    }
+
+    private fun toggleListMode(isEmpty: Boolean) {
+        if (isEmpty) {
+            if (viewSwitcher.currentView == recyclerView)
+                viewSwitcher.showNext()
+        } else {
+            if (viewSwitcher.currentView == openClosedView)
+                viewSwitcher.showPrevious()
+        }
+    }
+
+    private fun showErrorMessage(error: String) {
+        activity?.let { _ ->
+            Snackbar.make(mainView, error, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.retry) { _ ->
+                        state?.let { st -> viewModel.listCurrentPage(st) }
+                    }.show()
+        }
     }
 
     private fun setupList() {
@@ -115,7 +127,7 @@ class IssuesFragment : Fragment(), IssueSelected {
         recyclerView.addOnScrollListener(
                 InfiniteScrollListener({
                     state?.let {
-                        viewModel.inputs.listNextPage(it)
+                        viewModel.listNextPage(it)
                     }
                 }, layoutManager)
         )
@@ -140,7 +152,6 @@ class IssuesFragment : Fragment(), IssueSelected {
     override fun onClickIssue(issue: Issue) {
         activity?.let { DetailsIntent.startActivity(it, issue) }
     }
-
 
     companion object {
         @JvmStatic
